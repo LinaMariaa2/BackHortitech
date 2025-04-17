@@ -1,5 +1,5 @@
 import server from './server'
-import sequelize from './config/sq'
+import sequelize from './config/db'
 
 const port = process.env.port || 3000;
 async function startServer(){

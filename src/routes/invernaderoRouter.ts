@@ -1,10 +1,11 @@
-import { Router } from 'express'
-import { invernaderoController } from '../controllers/invernaderoController'
-const router = Router()
+import { Router } from 'express';
+import { invernaderoController } from '../controllers/invernaderoController';
 
-router.get('/', invernaderoController.getAll)
-router.post('/', invernaderoController.crearInvernadero)
-router.put('/', invernaderoController.actualizarInvernadero)
-router.delete('/', invernaderoController.eliminarInvernadero)
+const router = Router();
 
-export default router
+router.get('/', invernaderoController.getAll);
+router.post('/', invernaderoController.crearInvernadero);
+router.put('/:id', invernaderoController.actualizarInvernadero);
+router.delete('/:id', invernaderoController.eliminarInvernadero);
+
+export default router;

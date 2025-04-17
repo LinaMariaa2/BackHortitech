@@ -1,30 +1,30 @@
-import { Pool } from 'pg';
+import { Sequelize } from 'sequelize-typescript';
 import dotenv from 'dotenv';
-dotenv.config(); // Cargar variables de entorno desde .env
+import path from 'path';
 
-// Verificación de variables de entorno necesarias
-if (!process.env.PG_HOST || !process.env.PG_USER || !process.env.PG_PASSWORD || !process.env.PG_NAME) {
-  console.error('❌ Faltan variables de entorno. Asegúrate de que .env esté correctamente configurado.');
-  process.exit(1); // Detener la ejecución si faltan las variables críticas
-}
+dotenv.config();
 
-const pool = new Pool({
-    host: process.env.PG_HOST || 'localhost',
-    port: Number(process.env.PG_PORT) || 5432,
-    user: process.env.PG_USER || 'postgres',
-    password: process.env.PG_PASSWORD,
-    database: process.env.PG_NAME
+const sequelize = new Sequelize({
+  database: process.env.SQ_NAME as string,
+  username: process.env.SQ_USER as string,
+  password: process.env.SQ_PASSWORD as string,
+  host: process.env.SQ_HOST as string,
+  port: parseInt(process.env.SQ_PORT as string, 10),
+  dialect: 'postgres',
+  models: [path.resolve(__dirname, '..', 'models', '**/*.ts')],
+  logging: false, //para evitar tener tanto texto en la ocnsole
+  dialectOptions: {
+    ssl: { // necesarios para permisos con supabase
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
+  pool: {
+    max: 10,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
+  },
 });
-
-
-//CONEXION DE PRUEBA
-// pool.connect()
-//     .then(() => console.log('🔗 Conexión a PostgreSQL establecida'))
-//     .catch(err => {
-//         console.error('❌ Error al conectar a PostgreSQL:', err);
-//         process.exit(1); // Detener el proceso en caso de error en la conexión
-//     });
-   
-export default pool;
-
+export default sequelize;
 

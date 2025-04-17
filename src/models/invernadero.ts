@@ -1,6 +1,6 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
-@Table({ tableName: 'tbl_invernadero' })
+@Table({ tableName: 'tbl_invernadero', timestamps: false})
 export class Invernadero extends Model {
   @Column({ primaryKey: true, autoIncrement: true })
   id_invernadero: number;

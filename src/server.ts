@@ -1,7 +1,7 @@
 import express from 'express';
 import colors from 'colors';
 import morgan from 'morgan';
-import sequelize from './config/sq'; // tu instancia de Sequelize
+import sequelize from './config/db'; // tu instancia de Sequelize
 import invernaderoRouter from './routes/invernaderoRouter'; // ejemplo de router que puedes tener
 
 async function connectDB() {
@@ -31,5 +31,5 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(express.json());
-app.use('/api/acudientes', invernaderoRouter);
+app.use('/api/invernadero', invernaderoRouter);
 export default app;

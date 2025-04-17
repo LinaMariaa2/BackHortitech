@@ -1,16 +1,61 @@
-import type { Request, Response} from 'express'
+import { Request, Response } from 'express';
+import { Invernadero } from '../models/invernadero';
 
 export class invernaderoController {
-    static getAll = async (req: Request, res: Response) =>{
-        console.log('desde/api/invernadero')
+    //obtener los invernaderos
+    static getAll(req: Request, res: Response): void {
+        Invernadero.findAll()
+          .then((invernaderos) => {
+            res.json(invernaderos);
+          })
+          .catch((error) => {
+            console.error('Error al obtener los invernaderos:', error);  // Agrega error detallado
+            res.status(500).json({ error: 'Error al obtener los invernaderos' });
+          });
     }
-    static crearInvernadero = async (req: Request, res: Response) =>{
-        console.log('desde/api/invernadero')
+    //crear un nuevo Invernadero
+    static crearInvernadero(req: Request, res: Response): void {
+        Invernadero.create(req.body)
+        .then((nuevoInvernadero) => {
+            res.status(201).json(nuevoInvernadero);
+        })
+        .catch((error) => {
+            res.status(500).json({ error: 'Error al crear el invernadero' });
+        });
     }
-    static actualizarInvernadero = async (req: Request, res: Response) =>{
-        console.log('desde/api/invernadero')
+
+    static actualizarInvernadero(req: Request, res: Response): void {
+        const { id } = req.params; // cuando el id va en la url /4
+        Invernadero.update(req.body, { where: { id_invernadero: id } }) // id del modelo = id 
+        .then(([rowsUpdated]) => {
+            if (rowsUpdated === 0) {
+            return res.status(404).json({ error: 'Invernadero no encontrado' });
+            }
+            res.json({ mensaje: 'Invernadero actualizado correctamente' });
+            // perror para saber si existe o no el id 
+            if (isNaN(Number(id))) {
+                return res.status(400).json({ error: 'ID inválido' });
+            }
+        })
+        .catch((error) => {
+            res.status(500).json({ error: 'Error al actualizar el invernadero' });
+        });
     }
-    static eliminarInvernadero = async (req: Request, res: Response) =>{
-        console.log('desde/api/invernadero')
-    }
+
+    static eliminarInvernadero(req: Request, res: Response): void {
+        const { id } = req.params;
+        Invernadero.destroy({ where: { id_invernadero : id } })
+        .then((deleted) => {
+            if (deleted === 0) {
+            return res.status(404).json({ error: 'Invernadero no encontrado' });
+            }
+            res.json({ mensaje: 'Invernadero eliminado correctamente' });
+        })
+        .catch((error) => {
+            console.error('Error al eliminar el invernadero:', error);  // Log del error
+            res.status(500).json({ error: 'Error al eliminar el invernadero', details: error });
+        });
+        }
+
 }
+
