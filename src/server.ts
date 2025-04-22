@@ -3,6 +3,7 @@ import colors from 'colors';
 import morgan from 'morgan';
 import sequelize from './config/db'; // tu instancia de Sequelize
 import invernaderoRouter from './routes/invernaderoRouter'; // ejemplo de router que puedes tener
+import blocRouter from '.routes/blocRouter';
 
 async function connectDB() {
   try {
@@ -13,12 +14,12 @@ async function connectDB() {
     await sequelize.sync(); 
 
     // Consulta de prueba
-    try {
-      const [results] = await sequelize.query('SELECT * FROM tbl_consumo LIMIT 5');
-      console.log(colors.blue('📄 Datos de prueba:'), results);
-    } catch (err) {
-      console.error(colors.red('❌ Error al hacer la consulta de prueba:'), err);
-    }
+    // try {
+    //   const [results] = await sequelize.query('SELECT * FROM tbl_consumo LIMIT 5');
+    //   console.log(colors.blue('📄 Datos de prueba:'), results);
+    // } catch (err) {
+    //   console.error(colors.red('❌ Error al hacer la consulta de prueba:'), err);
+    // }
 
   } catch (error) {
     console.error(colors.red('❌ Falló la conexión a la base de datos:'), error);
@@ -32,4 +33,11 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
 app.use('/api/invernadero', invernaderoRouter);
+
+
+app.use(morgan('dev'));
+app.use(express.json());
+app.use('/api/bloc', blocRouter);
+
+
 export default app;
