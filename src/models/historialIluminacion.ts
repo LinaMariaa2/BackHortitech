@@ -1,10 +1,11 @@
 import {Table,Column,Model,DataType,ForeignKey,BelongsTo,} from 'sequelize-typescript';
 import { ProgramacionIluminacion } from './programacionIluminacion'; 
   
-  @Table({ tableName: 'tbl_historial_iluminacion' })
+  @Table({ tableName: 'tbl_historial_iluminacion', timestamps: false })
+  
   export class HistorialIluminacion extends Model {
     @Column({ primaryKey: true, autoIncrement: true })
-    id_historial_iluminacion: number;
+    id_historial_iluminacion: number; // identificador 
   
     @ForeignKey(() => ProgramacionIluminacion)
     @Column({ type: DataType.INTEGER, allowNull: false, onDelete: 'CASCADE' })

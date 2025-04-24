@@ -1,7 +1,8 @@
 import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { Zona } from './zona';
 
-@Table({ tableName: 'tbl_bloc' })
+@Table({ tableName: 'tbl_bloc', timestamps: false })
+
 export class Bloc extends Model { //hereda toda la funcionalidad necesaria para interactuar
     // con la base de datos (operaciones CRUD, gestión de relaciones, etc.).
   @Column({ primaryKey: true, autoIncrement: true })

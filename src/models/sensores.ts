@@ -2,7 +2,7 @@ import {Table,Column,Model,DataType,ForeignKey,BelongsTo,} from 'sequelize-types
 import { ProgramacionRiego } from './programacionRiego';
 import { ProgramacionIluminacion } from './programacionIluminacion';
   
-  @Table({ tableName: 'tbl_sensores' })
+  @Table({ tableName: 'tbl_sensores', timestamps: false })
   export class Sensores extends Model {
     @Column({ primaryKey: true, autoIncrement: true })
     id_sensor: number;

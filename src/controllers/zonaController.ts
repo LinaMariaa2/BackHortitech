@@ -1,2 +1,4 @@
+// Jerson Esteban
 import { Request, Response } from 'express';
-import { zona } from '../models/zona';
+import { Zona } from '../models/zona';
+

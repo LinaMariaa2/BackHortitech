@@ -2,10 +2,10 @@ import {Table,Column,Model,DataType,ForeignKey,BelongsTo,} from 'sequelize-types
   import { HistorialRiego } from './historialRiego';
   import { HistorialIluminacion } from './historialIluminacion';
   
-  @Table({ tableName: 'tbl_consumo' })
+  @Table({ tableName: 'tbl_consumo', timestamps: false })
   export class Consumo extends Model {
     @Column({ primaryKey: true, autoIncrement: true })
-    id_consumo: number;
+    id_consumo: number; // identificador 
   
     @Column({ type: DataType.DATEONLY, allowNull: false })
     fecha: Date;

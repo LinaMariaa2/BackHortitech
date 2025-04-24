@@ -1,7 +1,7 @@
 import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { Invernadero } from './invernadero';
 
-@Table({ tableName: 'tbl_zona' })
+@Table({ tableName: 'tbl_zona', timestamps: false })
 export class Zona extends Model {
   @Column({ primaryKey: true, autoIncrement: true })
   id_zona: number;

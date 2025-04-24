@@ -4,6 +4,7 @@ import { lecturaSensoresController } from '../controllers/lecturaSensoresControl
 const router = Router();
 
 router.get('/', lecturaSensoresController.getAll);
+router.get('/:id', lecturaSensoresController.getId);
 router.post('/', lecturaSensoresController.crearLecturaSensores);
 router.put('/:id', lecturaSensoresController.actualizarLecturaSensores);
 router.delete('/:id', lecturaSensoresController.eliminarLecturaSensores);

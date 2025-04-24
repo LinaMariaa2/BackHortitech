@@ -1,9 +1,13 @@
 import express from 'express';
 import colors from 'colors';
 import morgan from 'morgan';
-import sequelize from './config/db'; // tu instancia de Sequelize
-import invernaderoRouter from './routes/invernaderoRouter'; // ejemplo de router que puedes tener
-import blocRouter from '.routes/blocRouter';
+import sequelize from './config/db'; //instancia de Sequelize
+
+// Rutas 
+import invernaderoRouter from './routes/invernaderoRouter';
+import blocRouter from './routes/blocRouter';
+import consumoRouter from './routes/consumoRouter'
+
 
 async function connectDB() {
   try {
@@ -13,7 +17,7 @@ async function connectDB() {
     // Sincroniza modelos
     await sequelize.sync(); 
 
-    // Consulta de prueba
+    // Consulta de prueba para verificar el estado y si los datos se sincronizan bien 
     // try {
     //   const [results] = await sequelize.query('SELECT * FROM tbl_consumo LIMIT 5');
     //   console.log(colors.blue('📄 Datos de prueba:'), results);
@@ -29,15 +33,12 @@ async function connectDB() {
 
 connectDB();
 const app = express();
-
 app.use(morgan('dev'));
 app.use(express.json());
+
+// middlewares de enrutamiento, Thunder Client: http://localhost:3000/api/bloc
 app.use('/api/invernadero', invernaderoRouter);
-
-
-app.use(morgan('dev'));
-app.use(express.json());
 app.use('/api/bloc', blocRouter);
-
+app.use('/api/consumo', consumoRouter);
 
 export default app;

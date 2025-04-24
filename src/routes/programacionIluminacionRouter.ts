@@ -4,6 +4,7 @@ import { programacionIluminacionController } from '../controllers/programacionIl
 const router = Router();
 
 router.get('/', programacionIluminacionController.getAll);
+router.get('/:id', programacionIluminacionController.getId);
 router.post('/', programacionIluminacionController.crearProgramacionIluminacion);
 router.put('/:id', programacionIluminacionController.actualizarProgramacionIluminacion);
 router.delete('/:id', programacionIluminacionController.eliminarProgramacionIluminacion);

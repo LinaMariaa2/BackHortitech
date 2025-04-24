@@ -1,7 +1,7 @@
 import {Table,Column,Model,DataType,ForeignKey,BelongsTo,} from 'sequelize-typescript';
   import { Zona } from './zona';
   
-  @Table({ tableName: 'tbl_programacion_iluminacion' })
+  @Table({ tableName: 'tbl_programacion_iluminacion', timestamps: false })
   export class ProgramacionIluminacion extends Model {
     @Column({ primaryKey: true, autoIncrement: true })
     id_iluminacion: number;

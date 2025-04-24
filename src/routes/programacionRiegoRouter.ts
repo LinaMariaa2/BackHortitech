@@ -4,6 +4,7 @@ import { programacionRiegoController } from '../controllers/programacionRiegoCon
 const router = Router();
 
 router.get('/', programacionRiegoController.getAll);
+router.get('/:id', programacionRiegoController.getId);
 router.post('/', programacionRiegoController.crearProgramacionRiego);
 router.put('/:id', programacionRiegoController.actualizarProgramacionRiego);
 router.delete('/:id', programacionRiegoController.eliminarProgramacionRiego);

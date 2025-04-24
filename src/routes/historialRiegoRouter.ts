@@ -4,6 +4,7 @@ import { historialRiegoController } from '../controllers/historialRiegoControlle
 const router = Router();
 
 router.get('/', historialRiegoController.getAll);
+router.get('/:id', historialRiegoController.getId);
 router.post('/', historialRiegoController.crearHistorialRiego);
 router.put('/:id', historialRiegoController.actualizarHistorialRiego);
 router.delete('/:id', historialRiegoController.eliminarHistorialRiego);

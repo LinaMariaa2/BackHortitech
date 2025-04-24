@@ -1,7 +1,7 @@
 import {Table,Column,Model,DataType,ForeignKey,BelongsTo,} from 'sequelize-typescript';
 import { Sensores } from './sensores';
   
-  @Table({ tableName: 'tbl_lecturas_sensores' })
+  @Table({ tableName: 'tbl_lecturas_sensores', timestamps: false })
   export class LecturaSensores extends Model {
     @Column({ primaryKey: true, autoIncrement: true })
     id_lectura: number;
