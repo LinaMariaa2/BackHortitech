@@ -36,7 +36,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
 
-// middlewares de enrutamiento, Thunder Client: http://localhost:3000/api/bloc
+// middlewares de enrutamiento, Thunder Client: http://localhost:3000/api/..
 app.use('/api/invernadero', invernaderoRouter);
 app.use('/api/bloc', blocRouter);
 app.use('/api/consumo', consumoRouter);

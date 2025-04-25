@@ -1,82 +1,94 @@
-// Lin
 import { Request, Response } from 'express';
-import { Invernadero } from '../models/invernadero';
+import Invernadero from '../models/invernadero';
 
 export class invernaderoController {
-    //obtener los invernaderos
-    static getAll(req: Request, res: Response): void {
-        Invernadero.findAll()
-          .then((invernaderos) => {
-            res.json(invernaderos);
-          })
-          .catch((error) => {
-            console.error('Error al obtener los invernaderos:', error);  // Agrega error detallado
-            res.status(500).json({ error: 'Error al obtener los invernaderos' });
-          });
+  // Mostrar todos los invernaderos
+  static getAll = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const invernaderos = await Invernadero.findAll({
+        order: [['id_invernadero', 'ASC']],
+      });
+      res.json(invernaderos); // solo se ejecuta
+    } catch (error: any) {
+      res.status(500).json({ error: 'Error al obtener los invernaderos', details: error.message });
     }
-    // Obtener una publicación por ID
-      static async getId(req: Request, res: Response) {
-        const { id } = req.params;
-    
-        if (isNaN(Number(id))) {
-          res.status(400).json({ error: 'ID inválido' });
-          return;
-        }
-        try {
-          const invernadero = await Invernadero.findByPk(id);
-          if (!invernadero) {
-            res.status(404).json({ error: 'Invernadero no encontrado' });
-            return;
-          }
-          res.json(invernadero);
-        } catch (error: any) {
-          console.error('❌ Error al obtener el invernadero', error.message);
-          res.status(500).json({ error: 'Error al obtener el invernadero', details: error.message });
-        }
-    }
-    //crear un nuevo Invernadero
-    static crearInvernadero(req: Request, res: Response): void {
-        Invernadero.create(req.body)
-        .then((nuevoInvernadero) => {
-            res.status(201).json(nuevoInvernadero);
-        })
-        .catch((error) => {
-            res.status(500).json({ error: 'Error al crear el invernadero' });
-        });
-    }
-    // Actualizar un ivnernadero 
-    static actualizarInvernadero(req: Request, res: Response): void {
-        const { id } = req.params; // cuando el id va en la url /4
-        Invernadero.update(req.body, { where: { id_invernadero: id } }) // id del modelo = id 
-        .then(([rowsUpdated]) => {
-            if (rowsUpdated === 0) {
-            return res.status(404).json({ error: 'Invernadero no encontrado' });
-            }
-            res.json({ mensaje: 'Invernadero actualizado correctamente' });
-            // perror para saber si existe o no el id 
-            if (isNaN(Number(id))) {
-                return res.status(400).json({ error: 'ID inválido' });
-            }
-        })
-        .catch((error) => {
-            res.status(500).json({ error: 'Error al actualizar el invernadero' });
-        });
-    }
+  };
 
-    static eliminarInvernadero(req: Request, res: Response): void {
-        const { id } = req.params;
-        Invernadero.destroy({ where: { id_invernadero : id } })
-        .then((deleted) => {
-            if (deleted === 0) {
-            return res.status(404).json({ error: 'Invernadero no encontrado' });
-            }
-            res.json({ mensaje: 'Invernadero eliminado correctamente' });
-        })
-        .catch((error) => {
-            console.error('Error al eliminar el invernadero:', error);  // Log del error
-            res.status(500).json({ error: 'Error al eliminar el invernadero', details: error });
-        });
-        }
+  // Mostrar invernadero por ID
+  static getId = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { id } = req.params;
+      if (isNaN(Number(id))) {
+        res.status(400).json({ error: 'ID inválido' });
+        return;
+      }
 
+      const invernadero = await Invernadero.findByPk(id);
+      if (!invernadero) {
+        res.status(404).json({ error: 'Invernadero no encontrado' });
+        return;
+      }
+
+      res.json(invernadero);
+    } catch (error: any) {
+      res.status(500).json({ error: 'Error al obtener el invernadero', details: error.message });
+    }
+  };
+
+  // Crear un nuevo invernadero
+  static crearInvernadero = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const invernadero = new Invernadero(req.body);
+      await invernadero.save();
+      res.status(201).json({ mensaje: 'Invernadero creado correctamente', invernadero });
+    } catch (error: any) {
+      res.status(500).json({ error: 'Error al crear el invernadero', details: error.message });
+    }
+  };
+
+  // Actualizar un invernadero
+  static actualizarInvernadero = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { id } = req.params;
+      if (isNaN(Number(id))) {
+        res.status(400).json({ error: 'ID inválido' });
+        return;
+      }
+
+      const [rowsUpdated] = await Invernadero.update(req.body, {
+        where: { id_invernadero: id },
+      });
+
+      if (rowsUpdated === 0) {
+        res.status(404).json({ error: 'Invernadero no encontrado' });
+        return;
+      }
+
+      res.json({ mensaje: 'Invernadero actualizado correctamente' });
+    } catch (error: any) {
+      res.status(500).json({ error: 'Error al actualizar el invernadero', details: error.message });
+    }
+  };
+
+  // Eliminar un invernadero
+  static eliminarInvernadero = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { id } = req.params;
+      if (isNaN(Number(id))) {
+        res.status(400).json({ error: 'ID inválido' });
+        return;
+      }
+
+      const deleted = await Invernadero.destroy({ where: { id_invernadero: id } });
+
+      if (deleted === 0) {
+        res.status(404).json({ error: 'Invernadero no encontrado' });
+        return;
+      }
+
+      res.json({ mensaje: 'Invernadero eliminado correctamente' });
+    } catch (error: any) {
+      res.status(500).json({ error: 'Error al eliminar el invernadero', details: error.message });
+    }
+  };
 }
-

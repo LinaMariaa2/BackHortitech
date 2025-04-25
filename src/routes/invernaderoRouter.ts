@@ -1,12 +1,44 @@
-import { Router } from 'express';
-import { invernaderoController } from '../controllers/invernaderoController';
+// import { Router } from 'express';
+// import { invernaderoController } from '../controllers/invernaderoController';
+// import { validateInvernaderoId, validateInvernaderoBody } from '../middleware/invernaderoValidator';
+// import { handleInputErrors } from '../middleware/validation';
 
-const router = Router();
+// const router = Router();
 
-router.get('/', invernaderoController.getAll);
-router.get('/:id', invernaderoController.getId);
-router.post('/', invernaderoController.crearInvernadero);
-router.put('/:id', invernaderoController.actualizarInvernadero);
-router.delete('/:id', invernaderoController.eliminarInvernadero);
+// // Obtener todos los invernaderos (sin validación de ID)
+// router.get('/', invernaderoController.getAll);
 
-export default router;
+// // Obtener un invernadero por ID
+// router.get(
+//   '/:id',
+//   validateInvernaderoId,
+//   handleInputErrors,
+//   invernaderoController.getId
+// );
+
+// // Crear un nuevo invernadero
+// router.post(
+//   '/',
+//   validateInvernaderoBody,
+//   handleInputErrors,
+//   invernaderoController.crearInvernadero
+// );
+
+// // Actualizar un invernadero
+// router.put(
+//   '/:id',
+//   validateInvernaderoId,
+//   validateInvernaderoBody,
+//   handleInputErrors,
+//   invernaderoController.actualizarInvernadero
+// );
+
+// // Eliminar un invernadero
+// router.delete(
+//   '/:id',
+//   validateInvernaderoId,
+//   handleInputErrors,
+//   invernaderoController.eliminarInvernadero
+// );
+
+// export default router;
