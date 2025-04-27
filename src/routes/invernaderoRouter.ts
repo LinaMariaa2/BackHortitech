@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { invernaderoController } from '../controllers/invernaderoController';
-import { validateInvernaderoId } from '../middleware/invernaderoValidator';
+import { validateInvernaderoId, validateInvernaderoNombreUnico, validateInvernaderoBody } from '../middleware/invernaderoValidator';
 import { handleInputErrors } from '../middleware/validation';
 
 const router = Router();
@@ -11,7 +11,7 @@ router.get('/', invernaderoController.getAll);
 // Obtener un invernadero por ID
 router.get(
   '/:id',
-// validateInvernaderoId,
+  validateInvernaderoId,
   handleInputErrors,
   invernaderoController.getId
 );
@@ -19,7 +19,8 @@ router.get(
 // Crear un nuevo invernadero
 router.post(
   '/',
-  // validateInvernaderoBody,
+  validateInvernaderoBody, 
+  validateInvernaderoNombreUnico,  // Validación de nombre único
   handleInputErrors,
   invernaderoController.crearInvernadero
 );
@@ -27,8 +28,9 @@ router.post(
 // Actualizar un invernadero
 router.put(
   '/:id',
-  // validateInvernaderoId,
-  // validateInvernaderoBody,
+  validateInvernaderoId, // Verifica que el id esté registrado
+  validateInvernaderoNombreUnico,  // Validación de nombre único (pero permite el nombre del invernadero si se está actualizando)
+  validateInvernaderoBody, // Garantiza que los parámetros sean válidos
   handleInputErrors,
   invernaderoController.actualizarInvernadero
 );
@@ -36,7 +38,7 @@ router.put(
 // Eliminar un invernadero
 router.delete(
   '/:id',
-// validateInvernaderoId,
+  validateInvernaderoId,
   handleInputErrors,
   invernaderoController.eliminarInvernadero
 );

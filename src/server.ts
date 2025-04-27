@@ -9,30 +9,31 @@ import blocRouter from './routes/blocRouter';
 import consumoRouter from './routes/consumoRouter'
 
 
-async function connectDB() {
-  try {
-    await sequelize.authenticate(); // Verifica la conexión
-    console.log(colors.green.bold('✅ Conexión a Sequelize establecida'));
+// async function connectDB() {
+//   try {
+//     await sequelize.authenticate(); // Verifica la conexión
+//     console.log(colors.green.bold('✅ Conexión a Sequelize establecida'));
 
-    // Sincroniza modelos
-    await sequelize.sync(); 
+//     // Sincroniza modelos
+//     await sequelize.sync(); 
 
-    // Consulta de prueba para verificar el estado y si los datos se sincronizan bien 
-    // try {
-    //   const [results] = await sequelize.query('SELECT * FROM tbl_consumo LIMIT 5');
-    //   console.log(colors.blue('📄 Datos de prueba:'), results);
-    // } catch (err) {
-    //   console.error(colors.red('❌ Error al hacer la consulta de prueba:'), err);
-    // }
+//     // Consulta de prueba para verificar el estado y si los datos se sincronizan bien 
+//     // try {
+//     //   const [results] = await sequelize.query('SELECT * FROM tbl_consumo LIMIT 5');
+//     //   console.log(colors.blue('📄 Datos de prueba:'), results);
+//     // } catch (err) {
+//     //   console.error(colors.red('❌ Error al hacer la consulta de prueba:'), err);
+//     // }
 
-  } catch (error) {
-    console.error(colors.red('❌ Falló la conexión a la base de datos:'), error);
-    process.exit(1);
-  }
-}
+//   } catch (error) {
+//     console.error(colors.red('❌ Falló la conexión a la base de datos:'), error);
+//     process.exit(1);
+//   }
+// }
 
-connectDB();
 const app = express();
+
+// Middlewares globales
 app.use(morgan('dev'));
 app.use(express.json());
 

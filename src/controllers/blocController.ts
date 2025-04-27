@@ -1,99 +1,80 @@
-// Lin
-import { Request, Response } from 'express';
-import { Bloc } from '../models/bloc';
-
+//lin
+import type { Request, Response } from 'express';
+import Bloc from '../models/bloc';
 export class blocController {
 
-  // Obtener todas las publicaciones
-  static async getAll(req: Request, res: Response){
+  // Mostramos todas las publicaciones
+  static getAll = async (req: Request, res: Response) => {
     try {
-      const blocs = await Bloc.findAll();
-      res.json(blocs);
-    } catch (error: any) {
-      console.error('❌ Error al obtener las publicaciones:', error.message);
-      res.status(500).json({ error: 'Error al obtener las publicaciones', details: error.message }); //msj de error detallado 
-    }
-  }
-
-  // Obtener una publicación por ID
-  static async getId(req: Request, res: Response) {
-    const { id } = req.params;
-
-    if (isNaN(Number(id))) {
-      res.status(400).json({ error: 'ID inválido' });
-      return;
-    }
-    try {
-      const bloc = await Bloc.findByPk(id);
-      if (!bloc) {
-        res.status(404).json({ error: 'Publicación no encontrada' });
-        return;
-      }
-      res.json(bloc);
-    } catch (error: any) {
-      console.error('❌ Error al obtener la publicación:', error.message);
-      res.status(500).json({ error: 'Error al obtener la publicación', details: error.message });
-    }
-  }
-
-  // Crear una nueva publicación
-  static async crearBloc(req: Request, res: Response) {
-    try {
-      const nuevoBloc = await Bloc.create(req.body);
-      res.status(201).json(nuevoBloc);
-    } catch (error: any) {
-      console.error('❌ Error al crear la publicación:', error.message);
-      res.status(500).json({ error: 'Error al crear la publicación', details: error.message });
-    }
-  }
-
-  // Actualizar una publicación existente
-  static async actualizarBloc(req: Request, res: Response) {
-    const { id } = req.params;
-
-    if (isNaN(Number(id))) {
-      res.status(400).json({ error: 'ID inválido' });
-      return;
-    }
-
-    try {
-      const [rowsUpdated] = await Bloc.update(req.body, {
-        where: { id_publicacion: id }
+      const publicacion = await Bloc.findAll({
+        order: [['id_publicacion', 'ASC']], //ordenamos en ascendente con la PK
       });
-
-      if (rowsUpdated === 0) {
-        res.status(404).json({ error: 'Publicación no encontrada' });
-        return;
-      }
-
-      res.json({ mensaje: 'Publicación actualizada correctamente' });
-    } catch (error: any) {
-      console.error('❌ Error al actualizar la publicación:', error.message);
-      res.status(500).json({ error: 'Error al actualizar la publicación', details: error.message });
+      res.json(publicacion); // solo se ejecuta dando repsuesta con fromato JSon
+    } catch (error) {
+      res.status(500).json({ error: 'Error al obtener las publicaciones', details: error.message });
     }
-  }
+  };
 
-  // Eliminar una publicación
-  static async eliminarBloc(req: Request, res: Response) {
-    const { id } = req.params;
-
-    if (isNaN(Number(id))) {
-      res.status(400).json({ error: 'ID inválido' });
-      return;
-    }
-
+  // Mostramos publicaciones por ID en url 
+  static getId = async (req: Request, res: Response) => {
     try {
-      const deleted = await Bloc.destroy({ where: { id_publicacion: id } });
+      const { id } = req.params;
+      const publicaciones = await Bloc.findByPk(id)
+      if (!publicaciones) {
+        const error = new Error('Publicacion no encontrada')
+        res.status(404).json({ error: error.message });
+      }
+      res.json(publicaciones);
+    } catch (error) {
+      res.status(500).json({ error: 'Error al obtener las publicaciones por id ', details: error.message });
+    }
+  };
 
-      if (deleted === 0) {
-        res.status(404).json({ error: 'Publicación no encontrada' });
-        return;
+  // Crear una nueva publicacion
+  static crearBloc = async (req: Request, res: Response) => {
+    try {
+      const publicacion = new Bloc(req.body);
+      await publicacion.save();
+      res.status(201).json({ mensaje: 'publicacion creada correctamente', publicacion }); // Se agrega el consumo creado si no comentar 
+    } catch (error) {
+      res.status(500).json({ error: 'Error al crear la publicacion', details: error.message });
+    }
+  };
+
+  // Actualizar una publicacion
+  static actualizarBloc = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const [rowsUpdated] = await Bloc.update(req.body, {
+        where: { id_publicacion: id },
+      });
+      if (rowsUpdated === 0) {
+      res.status(404).json({ error: 'Publicacion no encontrada' });
       }
 
-      res.json({ mensaje: 'Publicación eliminada correctamente' });
-    } catch (error: any) {
-      console.error('❌ Error al eliminar la publicación:', error.message);
-      res.status(500).json({ error: 'Error al eliminar la publicación', details: error.message });
+      res.json({ mensaje: 'Invernadero actualizado correctamente' });
+    } catch (error) {
+      console.error('Error al actualizar Publicacion:', error);
+      res.status(500).json({ 
+        error: 'Error al actualizar La publicacionn', 
+        detalles: error instanceof Error ? error.message : String(error) 
+      });
     }
-  }
+  };
+  
+
+  // Eliminar una publicacion
+  static eliminarBloc = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const deleted = await Bloc.destroy({ where: { id_publicacion: id } });
+      if (deleted === 0) {
+        res.status(404).json({ error: 'Publicacion no encontrada ' });
+        return;
+      }
+      res.json({ mensaje: 'Publicacion eliminada correctamente' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error al eliminar la publicac', details: error.message });
+    }
+  };
 }

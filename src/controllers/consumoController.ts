@@ -1,99 +1,79 @@
-// Lin
-import { Request, Response } from 'express';
-import { Consumo } from '../models/consumo';
-
+//lin
+import type { Request, Response } from 'express';
+import Consumo from '../models/consumo';
 export class consumoController {
-
-  // Obtener todos los consumos
-  static async getAll(req: Request, res: Response){
+  // Mostramos todos los consumos
+  static getAll = async (req: Request, res: Response) => {
     try {
-      const consumo = await Consumo.findAll();
-      res.json(consumo);
-    } catch (error: any) {
-      console.error('❌ Error al obtener los consumo:', error.message);
-      res.status(500).json({ error: 'Error al obtener los consumos', details: error.message }); //msj de error detallado 
+      const consumo = await Consumo.findAll({
+        order: [['id_consumo', 'ASC']], //ordenamos en ascendente con la PK
+      });
+      res.json(consumo); // solo se ejecuta dando repsuesta con fromato JSon
+    } catch (error) {
+      res.status(500).json({ error: 'Error al obtener los consumos (M,S,D)', details: error.message });
     }
-  }
+  };
 
-  // Obtener una publicación por ID
-  static async getId(req: Request, res: Response) {
-    const { id } = req.params;
-
-    if (isNaN(Number(id))) {
-      res.status(400).json({ error: 'ID inválido' });
-      return;
-    }
+  // Mostramos consumos por ID en url 
+  static getId = async (req: Request, res: Response) => {
     try {
-      const consumo = await Consumo.findByPk(id);
+      const { id } = req.params;
+      const consumo = await Consumo.findByPk(id)
       if (!consumo) {
-        res.status(404).json({ error: 'consumo no encontrado' });
-        return;
+        const error = new Error('consumo no encontrado')
+        res.status(404).json({ error: error.message });
       }
       res.json(consumo);
-    } catch (error: any) {
-      console.error('❌ Error al obtener el consumo:', error.message);
-      res.status(500).json({ error: 'Error al obtener el consumo details', details: error.message });
+    } catch (error) {
+      res.status(500).json({ error: 'Error al obtener el consumo por id', details: error.message });
     }
-  }
+  };
 
-  // Crear una nueva publicación
-  static async crearConsumo(req: Request, res: Response) {
+  // Crear un nuevo invernadero
+  static crearConsumo = async (req: Request, res: Response) => {
     try {
-      const nuevoConsumo = await Consumo.create(req.body);
-      res.status(201).json(nuevoConsumo);
-    } catch (error: any) {
-      console.error('❌ Error al crear nuevo consumo', error.message);
-      res.status(500).json({ error: 'Error al crear nuevo consumo', details: error.message });
+      const consumo = new Consumo(req.body);
+      await consumo.save();
+      res.status(201).json({ mensaje: 'Consumo creado correctamente', consumo }); // Se agrega el consumo creado si no comentar 
+    } catch (error) {
+      res.status(500).json({ error: 'Error al crear el Consumo', details: error.message });
     }
-  }
+  };
 
-  // Actualizar una publicación existente
-  static async actualizarConsumo(req: Request, res: Response) {
-    const { id } = req.params;
-
-    if (isNaN(Number(id))) {
-      res.status(400).json({ error: 'ID inválido' });
-      return;
-    }
-
+  // Actualizar un Consumo
+  static actualizarConsumo = async (req: Request, res: Response) => {
     try {
+      const { id } = req.params;
       const [rowsUpdated] = await Consumo.update(req.body, {
-        where: { id_consumo: id }
+        where: { id_consumo: id },
       });
-
       if (rowsUpdated === 0) {
+      res.status(404).json({ error: 'Consumo no encontrado' });
+      }
+
+      res.json({ mensaje: 'Invernadero actualizado correctamente' });
+    } catch (error) {
+      console.error('Error al actualizar Consumo:', error);
+      res.status(500).json({ 
+        error: 'Error al actualizar el Consumo', 
+        detalles: error instanceof Error ? error.message : String(error) 
+      });
+    }
+  };
+  
+
+  // Eliminar un invernadero
+  static eliminarConsumo = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const deleted = await Consumo.destroy({ where: { id_consumo: id } });
+      if (deleted === 0) {
         res.status(404).json({ error: 'Consumo no encontrado' });
         return;
       }
-      res.json({ mensaje: 'Consumo actualizado correctamente' });
-      
-    } catch (error: any) {
-      console.error('❌ Error al actualizar el consumo:', error.message);
-      res.status(500).json({ error: 'Error al actualizar el consumo', details: error.message });
-    }
-  }
-
-  // Eliminar una publicación
-  static async eliminarConsumo(req: Request, res: Response) {
-    const { id } = req.params;
-
-    if (isNaN(Number(id))) {
-      res.status(400).json({ error: 'ID inválido' });
-      return;
-    }
-
-    try {
-      const deleted = await Consumo.destroy({ where: { id_consumo: id } });
-
-      if (deleted === 0) {
-        res.status(404).json({ error: 'consumo no encontrado' });
-        return;
-      }
-
       res.json({ mensaje: 'Consumo eliminado correctamente' });
-    } catch (error: any) {
-      console.error('❌ Error al eliminar el consumo:', error.message);
+    } catch (error) {
       res.status(500).json({ error: 'Error al eliminar el consumo', details: error.message });
     }
-  }
+  };
 }
