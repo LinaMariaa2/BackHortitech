@@ -1,12 +1,34 @@
-import { Router } from 'express'
-import { historialRiegoController } from '../controllers/historialRiegoController'
+import { Router } from 'express';
+import { historialRiegoController } from '../controllers/historialRiegoController';
+import { validarHistorialRiego } from '../middleware/historialRiegoValidator';
+import { handleInputErrors } from '../middleware/validation';
 
 const router = Router();
 
 router.get('/', historialRiegoController.getAll);
-router.get('/:id', historialRiegoController.getId);
-router.post('/', historialRiegoController.crearHistorialRiego);
-router.put('/:id', historialRiegoController.actualizarHistorialRiego);
-router.delete('/:id', historialRiegoController.eliminarHistorialRiego);
+router.get(
+    '/:id',
+    validarHistorialRiego,
+    handleInputErrors,
+    historialRiegoController.getId
+);
+router.post(
+    '/',
+    validarHistorialRiego,
+    handleInputErrors,
+    historialRiegoController.crearHistorialRiego
+);
+router.put(
+    '/:id',
+    validarHistorialRiego,
+    handleInputErrors,
+    historialRiegoController.actualizarHistorialRiego
+);
+router.delete(
+    '/:id',
+    validarHistorialRiego,
+    handleInputErrors,
+    historialRiegoController.eliminarHistorialRiego
+);
 
 export default router;

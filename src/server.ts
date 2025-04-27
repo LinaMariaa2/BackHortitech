@@ -7,6 +7,8 @@ import sequelize from './config/db'; //instancia de Sequelize
 import invernaderoRouter from './routes/invernaderoRouter';
 import blocRouter from './routes/blocRouter';
 import consumoRouter from './routes/consumoRouter'
+import historialIluminacionRouter from './routes/historialIluminacionRouter';
+import historialRiegoRouter from './routes/historialRiegoRouter';
 
 
 async function connectDB() {
@@ -40,5 +42,7 @@ app.use(express.json());
 app.use('/api/invernadero', invernaderoRouter);
 app.use('/api/bloc', blocRouter);
 app.use('/api/consumo', consumoRouter);
+app.use('/api/historialIluminacion', historialIluminacionRouter);
+app.use('/api/historialRiego', historialRiegoRouter);
 
 export default app;
