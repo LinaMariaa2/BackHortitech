@@ -3,6 +3,7 @@ import { body, validationResult } from 'express-validator';
 import { ProgramacionIluminacion } from '../models/programacionIluminacion';
 
 export const validarHistorialIluminacion = [
+    
 body('id_iluminacion')
     .isInt({ gt: 0 }).withMessage('El campo id_iluminacion debe ser un número entero positivo')
     .toInt()

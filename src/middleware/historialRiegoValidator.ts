@@ -3,6 +3,7 @@ import { body, validationResult } from 'express-validator';
 import { ProgramacionRiego } from '../models/programacionRiego';
 
 export const validarHistorialRiego = [
+    
     body('id_pg_riego')
     .isInt({ gt: 0 }).withMessage('El campo id_pg_riego debe ser un número entero positivo')
     .toInt()
