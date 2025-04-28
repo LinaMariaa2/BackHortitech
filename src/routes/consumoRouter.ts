@@ -5,7 +5,6 @@ import { validateConsumoId, validateHistorialIluminacion, validateHistorialRiego
 const router = Router();
 
 router.get('/',consumoController.getAll);
-
 router.get('/:id', 
     validateConsumoId,
     consumoController.getId);

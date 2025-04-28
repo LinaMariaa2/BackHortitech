@@ -4,11 +4,13 @@ import type { Request, Response } from 'express';
 export class personaController {
 
     //mostramos todas as persona con id y nombre
- static getAll = async (req: Request, res: Response) => {
+static getAll = async (req: Request, res: Response) => {
     try {
         const persona = await Persona.findAll({
-            order: [['id_persona', 'nombre_usuario', 'ASC']],
-
+            order: [
+                ['id_persona', 'ASC'],
+                ['nombre_usuario', 'ASC']
+              ],
         });
         res.json(persona); //solo se ejecuta dando respuesta en formato json
     } catch (error){

@@ -1,14 +1,17 @@
 import express from 'express';
-import colors from 'colors';
 import morgan from 'morgan';
 import sequelize from './config/db'; //instancia de Sequelize
 
 // Rutas 
-import invernaderoRouter from './routes/invernaderoRouter';
 import blocRouter from './routes/blocRouter';
 import consumoRouter from './routes/consumoRouter'
 import historialIluminacionRouter from './routes/historialIluminacionRouter';
 import historialRiegoRouter from './routes/historialRiegoRouter';
+import invernaderoRouter from './routes/invernaderoRouter';
+import lecturaSensoresRouter from './routes/lecturaSensoresRouter';
+import personaRouter from './routes/personaRouter';
+import programacionIluminacionRouter from './routes/programacionIluminacionRouter';
+import programacionRiegoRouter from './routes/programacionRiegoRouter';
 
 // async function connectDB() {
 //   try {
@@ -34,15 +37,18 @@ import historialRiegoRouter from './routes/historialRiegoRouter';
 
 
 const app = express();
-
 app.use(morgan('dev'));
 app.use(express.json());
 
 // middlewares de enrutamiento, Thunder Client: http://localhost:3000/api/..
-app.use('/api/invernadero', invernaderoRouter);
 app.use('/api/bloc', blocRouter);
 app.use('/api/consumo', consumoRouter);
 app.use('/api/historialIluminacion', historialIluminacionRouter);
 app.use('/api/historialRiego', historialRiegoRouter);
+app.use('/api/invernadero', invernaderoRouter);
+app.use('/api/lecturaSensores', lecturaSensoresRouter);
+app.use('/api/persona', personaRouter);
+app.use('/api/programacionIluminacion', programacionIluminacionRouter);
+app.use('/api/programacionRiego', programacionRiegoRouter);
 
 export default app;

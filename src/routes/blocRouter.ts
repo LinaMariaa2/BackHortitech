@@ -4,7 +4,6 @@ import { validateBlocId, validateZona, validateBlocBody} from '../middleware/blo
 import { handleInputErrors } from '../middleware/validation'; // maneja errores de de validacion
 //  handleInputErrors se maneja solo en validaciones con datos entrantes
 const router = Router();
-
 router.get('/', blocController.getAll);
 
 router.get('/:id',

@@ -4,7 +4,6 @@ import sequelize from './config/db'
 const port = process.env.PORT || 3000;
 async function startServer(){
     try{
-
         await sequelize.authenticate();
         console.log('conexion a la base de datos establecida')
         
@@ -18,5 +17,4 @@ async function startServer(){
         console.log('error durante la inicializacion', error)
     }
 }
-
 startServer();
