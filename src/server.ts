@@ -8,7 +8,6 @@ import invernaderoRouter from './routes/invernaderoRouter';
 import blocRouter from './routes/blocRouter';
 import consumoRouter from './routes/consumoRouter'
 
-
 // async function connectDB() {
 //   try {
 //     await sequelize.authenticate(); // Verifica la conexión
@@ -31,9 +30,9 @@ import consumoRouter from './routes/consumoRouter'
 //   }
 // }
 
+
 const app = express();
 
-// Middlewares globales
 app.use(morgan('dev'));
 app.use(express.json());
 

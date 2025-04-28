@@ -2,7 +2,6 @@ import server from './server'
 import sequelize from './config/db'
 
 const port = process.env.PORT || 3000;
-
 async function startServer(){
     try{
 
@@ -19,4 +18,5 @@ async function startServer(){
         console.log('error durante la inicializacion', error)
     }
 }
+
 startServer();
