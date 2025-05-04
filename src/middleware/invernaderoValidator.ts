@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+{ Request, Response, NextFunction } from 'express';
 import { body, param, validationResult } from 'express-validator';
 import { Invernadero } from '../models/invernadero'
 
