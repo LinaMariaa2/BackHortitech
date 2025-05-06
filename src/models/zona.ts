@@ -4,28 +4,28 @@ import { Invernadero } from './invernadero';
 @Table({ tableName: 'tbl_zona', timestamps: false })
 export class Zona extends Model {
   @Column({ primaryKey: true, autoIncrement: true })
-  id_zona: number;
+   declare id_zona: number;
 
   @Column({ type: DataType.STRING(50), allowNull: false })
-  nombre: string;
+  declare nombre: string;
 
   @Column({ type: DataType.TEXT })
-  descripciones_add: string;
+  declare descripciones_add: string;
 
   @Column({ type: DataType.ENUM('goteo', 'aspersión', 'manguera', 'inactivo') })
-  tipo_riego: string;
+  declare tipo_riego: string;
 
   @Column({ type: DataType.ENUM('LED', 'Fluorescentes', 'inactivo') })
-  tipo_iluminacion: string;
+  declare tipo_iluminacion: string;
 
   @Column({ type: DataType.DATE })
-  fecha_ultima_activacion: Date;
+  declare fecha_ultima_activacion: Date;
 
   @ForeignKey(() => Invernadero)
   @Column({ type: DataType.INTEGER })
-  id_invernadero: number;
+  declare id_invernadero: number;
 
   @BelongsTo(() => Invernadero)
-  invernadero: Invernadero;
+  declare invernadero: Invernadero;
 }
 export default Zona;
