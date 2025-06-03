@@ -1,6 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
-import sequelize from './config/db'; //instancia de Sequelize
+// import sequelize from './config/db'; //instancia de Sequelize
 
 // Rutas 
 import blocRouter from './routes/blocRouter';
@@ -54,6 +54,5 @@ app.use('/api/programacionIluminacion', programacionIluminacionRouter);
 app.use('/api/programacionRiego', programacionRiegoRouter);
 app.use('/api/zona', zonaRouter);
 app.use('/api/sensores', sensoresRouter);
-
 
 export default app;

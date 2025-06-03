@@ -1,6 +1,7 @@
 // Jerson Esteban
 import { Request, Response } from 'express'; //
 import { Zona } from '../models/zona';
+import { Invernadero } from '../models/invernadero';
 
 // listar todas las zonas 
 export class zonaController {
@@ -25,6 +26,24 @@ export class zonaController {
                 res.status(404).json({ error: error.message });
               }
               res.json(zona);
+    }catch (error) {
+        res.status(500).json({ error: 'Error al obtener la zona', details: error.message })
+    }
+  };
+
+  // traemos un invernadero por ID
+  static getInvernaderoId = async (req: Request, res:Response) =>{
+    try{
+        const { id } = req.params;
+              const zona = await Zona.findByPk(id,{
+                include: [Invernadero] // Incluimos el Modelo
+              });
+              if (!zona) {
+                const error = new Error('zona asociada no encontrado')
+                res.status(404).json({ error: error.message });
+              }
+
+              res.json(zona.invernadero);
     }catch (error) {
         res.status(500).json({ error: 'Error al obtener la zona', details: error.message })
     }

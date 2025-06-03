@@ -11,6 +11,11 @@ router.get('/:id',
     handleInputErrors,
     zonaController.getId);
 
+router.get('/:id/invernadero', 
+    validateZonaId,
+    handleInputErrors,
+    zonaController.getInvernaderoId);
+
 router.post('/', 
     validateInvernadero,
     validateConsumoBody,

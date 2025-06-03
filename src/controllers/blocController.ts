@@ -1,6 +1,7 @@
 //lin
 import type { Request, Response } from 'express';
 import Bloc from '../models/bloc';
+import { Zona }from '../models/zona';
 export class blocController {
 
   // Mostramos todas las publicaciones
@@ -29,6 +30,22 @@ export class blocController {
       res.status(500).json({ error: 'Error al obtener las publicaciones por id ', details: error.message });
     }
   };
+
+  static getBlocZona = async (req: Request, res:Response) =>{
+        try{
+            const { id } = req.params;
+                  const publi = await Bloc.findByPk(id,{
+                    include: [Zona] // Incluimos el Modelo
+                  });
+                  if (!publi) {
+                    const error = new Error('Publicacion asociada no encontrada')
+                    res.status(404).json({ error: error.message });
+                  }
+                  res.json(publi.zona);
+        }catch (error) {
+            res.status(500).json({ error: 'Error al obtener la zona', details: error.message })
+  }
+};
 
   // Crear una nueva publicacion
   static crearBloc = async (req: Request, res: Response) => {

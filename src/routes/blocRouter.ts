@@ -10,6 +10,11 @@ router.get('/:id',
     validateBlocId,
     blocController.getId);
 
+router.get('/:id/zona', 
+    validateBlocId,
+    handleInputErrors,
+    blocController.getBlocZona);
+
 router.post('/', 
     validateBlocBody,
     validateZona,
