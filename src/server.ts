@@ -13,7 +13,8 @@ import personaRouter from './routes/personaRouter';
 import programacionIluminacionRouter from './routes/programacionIluminacionRouter';
 import programacionRiegoRouter from './routes/programacionRiegoRouter';
 import zonaRouter from './routes/zonaRouter';
-import sensores from './routes/sensoresRouter'
+import sensoresRouter from './routes/sensoresRouter';
+
 // async function connectDB() {
 //   try {
 //     await sequelize.authenticate(); // Verifica la conexión
@@ -52,5 +53,7 @@ app.use('/api/persona', personaRouter);
 app.use('/api/programacionIluminacion', programacionIluminacionRouter);
 app.use('/api/programacionRiego', programacionRiegoRouter);
 app.use('/api/zona', zonaRouter);
+app.use('/api/sensores', sensoresRouter);
+
 
 export default app;
