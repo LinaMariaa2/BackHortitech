@@ -40,7 +40,7 @@ import sensoresRouter from './routes/sensoresRouter';
 
 
 const app = express();
-app.use(cors({ origin: 'http://localhost:3000' })); // permite peticiones desde el frontend
+app.use(cors({ origin: 'http://localhost:5173' })); // permite peticiones desde el frontend
 app.use(morgan('dev'));
 app.use(express.json());
 
