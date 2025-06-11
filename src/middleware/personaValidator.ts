@@ -20,7 +20,7 @@ export const validatePersonaId = async (req: Request, res: Response, next: NextF
     }
     next();
   };
-
+  
   export const validatePersonaBody = [
     body('nombre_usuario')
         .notEmpty().withMessage('El nombre es obligatorio')
@@ -44,7 +44,7 @@ export const validatePersonaId = async (req: Request, res: Response, next: NextF
         .isEmail().withMessage('El correo debe tener un formato válido')
         .trim()
         .normalizeEmail(),
-    body('contraseña')
+    body('contrasena')
         .isString().withMessage('La contraseña debe ser una cadena de texto')
         .isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
     body('telefono')

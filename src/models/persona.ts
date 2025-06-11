@@ -19,10 +19,10 @@ export class Persona extends Model {
   @Column({ type: DataType.STRING(100), allowNull: false, unique: true })
   correo: string;
 
-  @Column({ type: DataType.STRING(255), allowNull: false })
+  @Column({ type: DataType.STRING(255), allowNull: true })
   contrasena: string;
 
-  @Column({ type: DataType.STRING(15), allowNull: false })
+  @Column({ type: DataType.STRING(15), allowNull: true })
   telefono: string;
 
   @Column({ type: DataType.DATE, defaultValue: null } )

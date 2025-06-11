@@ -35,17 +35,29 @@ static getAll = async (req: Request, res: Response) => {
  };
 
  //crear una nueva persona
- static crearPersona = async (req: Request, res: Response) =>{
-    try{
-        const persona = new Persona(req.body)
-        await persona.save()
-        res.status(201).json("persona creada correctamente")
+ static crearPersona = async (req: Request, res: Response) => {
+  try {
+    const { nombre_usuario, correo, contrasena,rol } = req.body;
 
-    }catch (error){
-        console.log(error)
-    res.status(500).json({error: "error al crear persona"})
-    }
- }
+
+    const persona = await Persona.create({
+      nombre_usuario,
+      correo,
+      contrasena,
+      rol: 'aprendiz',
+      telefono: '0000000000', // valor temporal o ficticio
+      id_zona: null, // o asignar un id válido si corresponde
+      estado: 'activo', // puedes inicializar en activo si aplica
+      fecha_creacion: new Date() // si quieres registrarlo al crear
+    });
+
+    res.status(201).json({ mensaje: 'Registro creado correctamente', persona });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al crear Registro", detalles: error instanceof Error ? error.message : String(error) });
+  }
+}
+
 
  //actualizar datos de persona
  static actualizarPersona = async(req: Request, res: Response) =>{

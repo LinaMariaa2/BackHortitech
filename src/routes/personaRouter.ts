@@ -1,36 +1,47 @@
 import { Router } from 'express';
 import { personaController } from '../controllers/personaController';
 import { handleInputErrors } from '../middleware/validation';
-import {body, param} from 'express-validator'
-import{validatePersonaId,  validatePersonaBody} from '../middleware/personaValidator'
+import { validatePersonaId, validatePersonaBody } from '../middleware/personaValidator';
+import { validatePersonaRegistro } from '../middleware/registroValidator';
+
 const router = Router();
 
-//mostrar todas las personas
+// Mostrar todas las personas
 router.get('/', personaController.getAll);
-//mostrar personas por id
-router.get('/:id', 
+
+// Mostrar persona por ID
+router.get('/:id',
     validatePersonaId,
+    handleInputErrors,
     personaController.getId
 );
 
-//crear una persona
-router.post('/', 
+// Registro básico desde el frontend (nombre, correo, contraseña)
+router.post('/registro',
+    validatePersonaRegistro,
+    personaController.crearPersona
+);
+
+// Crear persona completa (admin u otro backend)
+router.post('/',
     validatePersonaBody,
-    handleInputErrors, 
-    personaController.crearPersona);
-
-//actualizar datos de persona
-router.put('/:id', 
-    validatePersonaId,
-    validatePersonaBody, 
     handleInputErrors,
-    personaController.actualizarPersona);
+    personaController.crearPersona
+);
 
-//eliminar perosona
+// Actualizar persona
+router.put('/:id',
+    validatePersonaId,
+    validatePersonaBody,
+    handleInputErrors,
+    personaController.actualizarPersona
+);
+
+// Eliminar persona
 router.delete('/:id',
-    validatePersonaBody,
     validatePersonaId,
     handleInputErrors,
-    personaController.eliminarPersona);
+    personaController.eliminarPersona
+);
 
 export default router;

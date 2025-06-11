@@ -1,5 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
 // import sequelize from './config/db'; //instancia de Sequelize
 
 // Rutas 
@@ -39,6 +40,7 @@ import sensoresRouter from './routes/sensoresRouter';
 
 
 const app = express();
+app.use(cors({ origin: 'http://localhost:3000' })); // permite peticiones desde el frontend
 app.use(morgan('dev'));
 app.use(express.json());
 
